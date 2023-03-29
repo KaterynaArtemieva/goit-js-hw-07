@@ -2,14 +2,11 @@ import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 
 console.log(galleryItems);
-
 const galleryList = document.querySelector(".gallery");
-let selectImgObj = {};
-
 const marcup = galleryItems
   .map(({ preview, description, original }) => {
     return `<li class="gallery__item">
-  <a class="gallery__link" href="large-image.jpg">
+  <a class="gallery__link" href="${original}">
     <img
       class="gallery__image"
       src="${preview}"
@@ -17,7 +14,7 @@ const marcup = galleryItems
       alt="${description}"
     />
   </a>
-</li>`
+</li>`;
   })
   .join("");
 galleryList.insertAdjacentHTML("beforeend", marcup);
@@ -25,20 +22,13 @@ galleryList.insertAdjacentHTML("beforeend", marcup);
 galleryList.addEventListener("click", onGalleryElClick);
 
 function onGalleryElClick(evt) {
-  if (evt.target.classList.value !== "js-gallery-img") {
+  evt.preventDefault();
+  if (evt.target.classList.value !== "gallery__image") {
     return;
   }
-  const selectImgDescr = evt.target.alt;
-  selectImgObj = galleryItems.find(
-    (item) => item.description === selectImgDescr
-  );
-
- const instance = basicLightbox.create(`
- <div><img class="js-gallery-img" src="${selectImgObj.original}" alt="${selectImgObj.description}" width="1280"></div>
+  const selectImgOriginalUrl = evt.target.dataset.source;
+  const instance = basicLightbox.create(`
+ <div><img class="js-gallery-img" src="${selectImgOriginalUrl}" alt="${evt.target.alt}" width="1000"></div>
  `);
-
-
   instance.show();
 }
-
-
