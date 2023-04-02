@@ -28,7 +28,7 @@ function onGalleryElClick(evt) {
   const selectImgOriginalUrl = evt.target.dataset.source;
   const instance = basicLightbox.create(
     `
- <div><img class="js-gallery-img" src="${selectImgOriginalUrl}" alt="${evt.target.alt}" width="1000"></div>
+ <div><img src="${selectImgOriginalUrl}" alt="${evt.target.alt}" width="1000"></div>
  `,
     {
       onShow: () => {
