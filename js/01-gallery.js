@@ -1,7 +1,6 @@
 import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 
-console.log(galleryItems);
 const galleryList = document.querySelector(".gallery");
 const marcup = galleryItems
   .map(({ preview, description, original }) => {
@@ -27,8 +26,24 @@ function onGalleryElClick(evt) {
     return;
   }
   const selectImgOriginalUrl = evt.target.dataset.source;
-  const instance = basicLightbox.create(`
+  const instance = basicLightbox.create(
+    `
  <div><img class="js-gallery-img" src="${selectImgOriginalUrl}" alt="${evt.target.alt}" width="1000"></div>
- `);
+ `,
+    {
+      onShow: () => {
+        window.addEventListener("keydown", onInstanceKeydown);
+      },
+      onClose: () => {
+        window.removeEventListener("keydown", onInstanceKeydown);
+      },
+    }
+  );
+  function onInstanceKeydown(evt) {
+    if (evt.keyCode !== 27) {
+      return;
+    }
+    instance.close();
+  }
   instance.show();
 }
